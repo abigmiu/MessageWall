@@ -653,6 +653,13 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
+"@liaoliaots/nestjs-redis@^8.2.2":
+  version "8.2.2"
+  resolved "https://registry.npmmirror.com/@liaoliaots/nestjs-redis/-/nestjs-redis-8.2.2.tgz#127669b5d404ee0f16c41a94e17b234bc30472ea"
+  integrity sha512-/xBQto0ZAVjDQ7WiLuQLCy01xEtF7fiHMbffRo0dTwpC9GJ2gU1bm1VL9CbocFfAxiLDjcfIyRZuaaj3ZU6igg==
+  dependencies:
+    tslib "2.4.0"
+
 "@nestjs/cli@^8.0.0":
   version "8.2.8"
   resolved "https://registry.npmmirror.com/@nestjs/cli/-/cli-8.2.8.tgz#63e5b477f90e6d0238365dcc6236b95bf4f0c807"

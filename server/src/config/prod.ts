@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require('path');
 
 export default {
@@ -12,6 +13,10 @@ export default {
     charset: 'utf8mb4',
     entities: [path.join(__dirname, '../db/**/*.entity{.js,.ts}')],
     synchronize: false,
+  },
+  redis: {
+    hos: '127.0.0.1',
+    port: 6379,
   },
   port: 3005, // 端口
   swagger: false,

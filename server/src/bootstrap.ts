@@ -2,17 +2,13 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import type { INestApplication } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
-
 function initSwagger(app: INestApplication, config: ConfigService) {
-  const isOpenSwagger = config.get('swagger')
+  const isOpenSwagger = config.get('swagger');
   if (!isOpenSwagger) {
     return false;
   }
-  
-  const options = new DocumentBuilder()
-    .setTitle('留言墙文档')
-    .setVersion('1.0')
-    .build();
+
+  const options = new DocumentBuilder().setTitle('留言墙文档').setVersion('1.0').build();
   const document = SwaggerModule.createDocument(app, options);
 
   const swaggerPrefix = config.get('swaggerPrefix');
