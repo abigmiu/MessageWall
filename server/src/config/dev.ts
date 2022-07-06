@@ -11,7 +11,7 @@ export default {
     password: '123456',
     database: 'message-wall',
     charset: 'utf8mb4',
-    entities: [path.join(__dirname, '../db/**/*.entity{.js,.ts}')],
+    entities: [path.join(__dirname, '../apis/**/*.entity{.js,.ts}')],
     synchronize: true,
   },
   redis: {

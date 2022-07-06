@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsInt, IsNotEmpty, Max, Min } from 'class-validator';
+import { IsInt, IsNotEmpty, IsOptional, Max, MaxLength, Min } from 'class-validator';
 
 export class CreateTagDto {
   @ApiProperty({
@@ -10,14 +10,19 @@ export class CreateTagDto {
   @IsNotEmpty({
     message: '标签名不能为空',
   })
+  @MaxLength(10, {
+    message: '标签名不能超过10个子',
+  })
   readonly name: string;
 
   @ApiProperty({
     description: '权重',
     required: false,
     type: 'int',
+    default: 1,
     example: 1,
   })
+  @IsOptional()
   @IsInt({
     message: '权重只能为整数',
   })
@@ -27,5 +32,5 @@ export class CreateTagDto {
   @Max(99, {
     message: '权重最大为99',
   })
-  readonly weight: number;
+  readonly weight?: number;
 }
