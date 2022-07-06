@@ -9,7 +9,7 @@ export default {
     port: 3306,
     username: 'root',
     password: '123456',
-    database: 'blog',
+    database: 'message-wall',
     charset: 'utf8mb4',
     entities: [path.join(__dirname, '../db/**/*.entity{.js,.ts}')],
     synchronize: true,

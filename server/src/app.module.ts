@@ -4,8 +4,7 @@ import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import config from './config';
 
-const configService = new ConfigService();
-const redisConfig = configService.get('redis');
+import { AdminTagsModule } from './apis/admin/tags/tags.module';
 
 @Module({
   imports: [
@@ -13,9 +12,16 @@ const redisConfig = configService.get('redis');
       isGlobal: true,
       load: [config],
     }),
-    RedisModule.forRoot({
-      config: redisConfig,
+    RedisModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => {
+        return {
+          config: configService.get('redis'),
+        };
+      },
     }),
+    AdminTagsModule,
   ],
   controllers: [],
   providers: [AppService],
