@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { UpdateTagDto } from './dto/update-tag.dto';
 import { Tag } from './entities/tag.entity';
@@ -13,6 +13,16 @@ export class AdminTagsService {
   ) {}
 
   async create(createTagDto: CreateTagDto) {
+    const haveSameName = await this.tagRepo.findOne({
+      where: {
+        name: createTagDto.name,
+      },
+    });
+
+    if (haveSameName) {
+      throw new BadRequestException('已有相同标签');
+    }
+
     const tag = new Tag();
     tag.name = createTagDto.name;
     tag.weight = createTagDto.weight;
@@ -26,12 +36,16 @@ export class AdminTagsService {
         id,
       },
     });
-    this.tagRepo.update()
-    console.log(origin);
+    origin.freeze = !origin.freeze;
+    await this.tagRepo.save(origin);
   }
 
-  findAll() {
-    return `This action returns all tags`;
+  async findAll() {
+    return await this.tagRepo.find({
+      where: {
+        del: false,
+      },
+    });
   }
 
   findPage() {
@@ -39,7 +53,11 @@ export class AdminTagsService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} tag`;
+    return this.tagRepo.findOne({
+      where: {
+        id,
+      },
+    });
   }
 
   async update(id: number, updateTagDto: UpdateTagDto) {
@@ -48,11 +66,31 @@ export class AdminTagsService {
         id,
       },
     });
-    console.log(origin);
-    return `This action updates a #${id} tag`;
+
+    const keys = Object.keys(updateTagDto);
+    const newObj = {
+      ...origin,
+    };
+    keys.forEach((key) => {
+      newObj[key] = updateTagDto[key];
+    });
+
+    this.tagRepo.save(newObj);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} tag`;
+  async remove(id: number) {
+    const isExist = await this.tagRepo.findOne({
+      where: {
+        id,
+        del: false,
+      },
+    });
+
+    if (!isExist) {
+      throw new BadRequestException('数据不存在');
+    }
+
+    isExist.del = true;
+    this.tagRepo.save(isExist);
   }
 }

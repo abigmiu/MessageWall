@@ -8,7 +8,7 @@ export class TransformInterceptor implements NestInterceptor {
     return next.handle().pipe(
       map((data) => ({
         code: 200,
-        data,
+        data: data || null,
         message: 'ok',
       })),
     );

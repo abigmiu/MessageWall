@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsInt, IsNotEmpty, IsOptional, Max, MaxLength, Min } from 'class-validator';
 
 export class CreateTagDto {
@@ -15,9 +15,8 @@ export class CreateTagDto {
   })
   readonly name: string;
 
-  @ApiProperty({
+  @ApiPropertyOptional({
     description: '权重',
-    required: false,
     type: 'int',
     default: 1,
     example: 1,

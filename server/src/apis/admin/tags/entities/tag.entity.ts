@@ -5,6 +5,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 export class Tag {
@@ -29,6 +30,7 @@ export class Tag {
   })
   freeze: boolean;
 
+  @Exclude()
   @Column({
     default: false,
     comment: '是否删除',
