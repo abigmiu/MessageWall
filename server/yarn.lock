@@ -825,6 +825,11 @@
   resolved "https://registry.npmmirror.com/@sqltools/formatter/-/formatter-1.2.3.tgz#1185726610acc37317ddab11c3c7f9066966bd20"
   integrity sha512-O3uyB/JbkAEMZaP3YqyHH7TMnex7tWyCbCI4EfJdOCoN6HIhqdJBWTM6aCCiWQ/5f5wxjgU735QAIpJbjDvmzg==
 
+"@supercharge/request-ip@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.npmmirror.com/@supercharge/request-ip/-/request-ip-1.2.0.tgz#b8a8164322e09de3fa9b6f556885795c4841a7d4"
+  integrity sha512-wlt6JW69MHqLY2M6Sm/jVyCojNRKq2CBvwH0Hbx24SFhDQQGkgEjeKxVutDxHSyrWixFaOSLXC27euzxijhyMQ==
+
 "@tsconfig/node10@^1.0.7":
   version "1.0.9"
   resolved "https://registry.npmmirror.com/@tsconfig/node10/-/node10-1.0.9.tgz#df4907fc07a886922637b15e02d4cebc4c0021b2"
@@ -3710,6 +3715,13 @@ neo-async@^2.6.2:
   version "2.6.2"
   resolved "https://registry.npmmirror.com/neo-async/-/neo-async-2.6.2.tgz#b4aafb93e3aeb2d8174ca53cf163ab7d7308305f"
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
+
+nestjs-real-ip@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.npmmirror.com/nestjs-real-ip/-/nestjs-real-ip-2.1.1.tgz#b384a86e5f5106fbee3585fcfe06e12182da7f90"
+  integrity sha512-16cIB9xFRy9Z0K15lpejKJBqOqScAT5vwW/Jbs82y8/3TwYn0CZrUr+HXncUCpk2QISqL/JHt+IuHHRE1xLkiA==
+  dependencies:
+    "@supercharge/request-ip" "^1.2.0"
 
 node-emoji@1.11.0:
   version "1.11.0"

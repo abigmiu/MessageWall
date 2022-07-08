@@ -5,7 +5,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import config from './config';
 
 import { AdminTagsModule } from './apis/admin/tags/tags.module';
+import { AdminSubtitleModule } from './apis/admin/subtitle/subtitle.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AdminMessageModule } from './apis/admin/message/message.module';
+import { MessageModule } from './apis/app/message/message.module';
 
 @Module({
   imports: [
@@ -29,6 +32,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     }),
 
     AdminTagsModule,
+    AdminSubtitleModule,
+    AdminMessageModule,
+    MessageModule,
   ],
   controllers: [],
   providers: [AppService],
