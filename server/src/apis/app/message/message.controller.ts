@@ -15,6 +15,7 @@ import { MessageService } from './message.service';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 import { QueryPageMessage } from './dto/query-page-message.dto';
+import { ReportMessageDto } from './dto/report-message.dto';
 
 @ApiTags('Pc留言')
 @Controller('message')
@@ -39,9 +40,8 @@ export class MessageController {
     summary: '获取分页数据',
   })
   @Get()
-  findPage(@Query() query: QueryPageMessage) {
-    console.log(query);
-    return 'page';
+  async findPage(@Query() query: QueryPageMessage) {
+    return await this.messageService.findPage(query);
   }
 
   @ApiOperation({
@@ -52,7 +52,19 @@ export class MessageController {
     type: 'integer',
   })
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.messageService.findOne(id);
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    return await this.messageService.findOne(id);
+  }
+
+  @Post('report/:id')
+  @ApiOperation({
+    summary: '举报',
+  })
+  @ApiParam({
+    name: 'id',
+    type: 'integer',
+  })
+  async report(@Param('id', ParseIntPipe) id: number, @Body() reportMessageDto: ReportMessageDto) {
+    await this.messageService.report(id, reportMessageDto);
   }
 }

@@ -6,6 +6,10 @@ import { Message } from './entities/message.entity';
 import { Tag } from 'src/apis/admin/tags/entities/tag.entity';
 import { RedisService } from '@liaoliaots/nestjs-redis';
 import Redis from 'ioredis';
+import { ReportMessageDto } from './dto/report-message.dto';
+import { Report } from './entities/report.entity';
+import { QueryPageMessage } from './dto/query-page-message.dto';
+import { throwError } from 'rxjs';
 
 @Injectable()
 export class MessageService {
@@ -15,6 +19,8 @@ export class MessageService {
     private readonly messageRepo: Repository<Message>,
     @InjectRepository(Tag)
     private readonly tagRepo: Repository<Tag>,
+    @InjectRepository(Report)
+    private readonly reportRepo: Repository<Report>,
     private redisService: RedisService,
   ) {
     this.redis = this.redisService.getClient();
@@ -55,6 +61,32 @@ export class MessageService {
     return data;
   }
 
+  async findPage(query: QueryPageMessage) {
+    const size = +query.size;
+    const lastId = +query.lastId;
+    const total = await this.messageRepo.count({
+      where: {
+        del: false,
+      },
+    });
+    const res = await this.messageRepo.query(
+      `select * from (
+        select * from message
+          where id < ${lastId}
+          order by id desc
+      ) as temp
+      where not(del)
+      limit ${size}
+      `,
+    );
+    return {
+      pagination: {
+        total,
+      },
+      content: res,
+    };
+  }
+
   async setIpCount(ip: string) {
     let count = await this.redis.get(`mw-ip-${ip}`);
     if (!count) {
@@ -72,5 +104,16 @@ export class MessageService {
       count = '0';
     }
     return Number(count) >= 5;
+  }
+
+  async report(id: number, reportMessageDto: ReportMessageDto) {
+    await this.findOne(id);
+    const report = new Report();
+    report.content = reportMessageDto.content;
+    report.messageId = id;
+    report.nickname = reportMessageDto.nickname;
+    report.report_nickname = reportMessageDto.report_nickname;
+
+    await this.reportRepo.save(report);
   }
 }

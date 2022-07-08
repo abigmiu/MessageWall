@@ -1,41 +1,38 @@
-import { ApiPropertyOptional } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { Type, Transform } from 'class-transformer';
 import { IsInt, IsOptional } from 'class-validator';
 
 export class QueryPageMessage {
-  @ApiPropertyOptional({
-    description: '页数',
-    type: 'integer',
-    default: 1,
-  })
-  @IsOptional()
-  @IsInt({
-    message: 'page 不为整数',
-  })
-  @Type(() => Number)
-  page?: number = 1;
+  // @ApiProperty({
+  //   description: '页数',
+  //   type: 'integer',
+  //   default: 1,
+  // })
+  // @IsInt({
+  //   message: 'page 不为整数',
+  // })
+  // @Type(() => Number)
+  // page: number;
 
-  @ApiPropertyOptional({
+  @ApiProperty({
     description: '每页数量',
     type: 'integer',
     default: 20,
   })
-  @IsOptional()
   @IsInt({
     message: 'size 不为整数',
   })
   @Type(() => Number)
-  size?: number = 20;
+  size: number;
 
-  @ApiPropertyOptional({
-    description: '开始ID',
+  @ApiProperty({
+    description: 'lastID',
     type: 'integer',
     default: 0,
   })
-  @IsOptional()
   @IsInt({
-    message: 'startID 不为整数',
+    message: 'lastID 不为整数',
   })
   @Type(() => Number)
-  startId?: number = 0;
+  lastId: number;
 }
