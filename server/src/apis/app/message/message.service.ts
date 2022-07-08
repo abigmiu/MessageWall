@@ -41,16 +41,18 @@ export class MessageService {
     await this.messageRepo.save(message);
   }
 
-  findAll() {
-    return `This action returns all message`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} message`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} message`;
+  async findOne(id: number) {
+    const data = await this.messageRepo.findOne({
+      where: {
+        id,
+        del: false,
+      },
+      // select: ['color', 'content', 'created_at', 'id', 'nickname', 'tagId'],
+    });
+    if (!data) {
+      throw new BadRequestException('没有此留言');
+    }
+    return data;
   }
 
   async setIpCount(ip: string) {

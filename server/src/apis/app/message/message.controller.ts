@@ -1,11 +1,24 @@
-import { Controller, Get, Post, Body, Param, Delete, BadRequestException } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  BadRequestException,
+  ParseIntPipe,
+  ClassSerializerInterceptor,
+  UseInterceptors,
+  Query,
+} from '@nestjs/common';
 import { RealIp } from 'nestjs-real-ip';
 import { MessageService } from './message.service';
 import { CreateMessageDto } from './dto/create-message.dto';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
+import { QueryPageMessage } from './dto/query-page-message.dto';
 
 @ApiTags('Pc留言')
 @Controller('message')
+@UseInterceptors(ClassSerializerInterceptor)
 export class MessageController {
   constructor(private readonly messageService: MessageService) {}
 
@@ -26,23 +39,20 @@ export class MessageController {
     summary: '获取分页数据',
   })
   @Get()
-  findPage() {
+  findPage(@Query() query: QueryPageMessage) {
+    console.log(query);
     return 'page';
   }
 
   @ApiOperation({
     summary: '获取详情',
   })
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.messageService.findOne(+id);
-  }
-
-  @ApiOperation({
-    summary: '删除详情',
+  @ApiParam({
+    name: 'id',
+    type: 'integer',
   })
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.messageService.remove(+id);
+  @Get(':id')
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.messageService.findOne(id);
   }
 }

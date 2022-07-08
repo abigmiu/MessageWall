@@ -52,12 +52,15 @@ export class AdminTagsService {
     return `This action returns page tags`;
   }
 
-  findOne(id: number) {
-    return this.tagRepo.findOne({
+  async findOne(id: number) {
+    const res = await this.tagRepo.findOne({
       where: {
         id,
+        del: false,
       },
     });
+    console.log(res);
+    return res;
   }
 
   async update(id: number, updateTagDto: UpdateTagDto) {

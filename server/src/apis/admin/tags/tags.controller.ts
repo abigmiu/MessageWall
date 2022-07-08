@@ -54,8 +54,8 @@ export class AdminTagsController {
     type: 'integer',
   })
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.tagsService.findOne(id);
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    return await this.tagsService.findOne(id);
   }
 
   @ApiOperation({
