@@ -70,12 +70,9 @@ export class MessageService {
       },
     });
     const res = await this.messageRepo.query(
-      `select * from (
-        select * from message
-          where id < ${lastId}
-          order by id desc
-      ) as temp
-      where not(del)
+      `select * from message
+      where id < ${lastId} and not(del)
+      order by id desc
       limit ${size}
       `,
     );
